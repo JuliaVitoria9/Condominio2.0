@@ -31,52 +31,49 @@ app.get('/blocos', (req, res) => {
     res.sendFile(__dirname + '/blocos.html');
 });
 
-app.post('/criar',(req, res) => {
-    const id_bloco = req.body.nome;
-    const quantidade = req.body.quantidade;
-    const preco = req.body.preco;
+app.post('/blocos',(req, res) => {
+    const id_bloco = req.body.id_bloco;
+    const descricao = req.body.descricao;
+    const qtd_apartamentos = req.body.qtd_apartamentos;
 
     const insert = 
         'INSERT INTO Bloco (id_bloco, descricao, qtd_apartamentos) VALUES (?, ?, ?)';
 
     connection.query(insert, [id_bloco, descricao, qtd_apartamentos], (err, results) => {
         if (err) {
-            console.error("Erro ao inserir dados: ", err);
-            res.status(500).send('Erro ao cadastrar dados');
+            console.error("Erro ao cadastrar blocos: ", err);
+            res.status(500).send('Erro ao cadastrar bloco');
             return;
         } else{
-            console.log("Dados inserido com sucesso");
+            console.log("Bloco cadastrado com sucesso");
             res.redirect('/');
         }
     });
 });
 
-app.get('/relatorio', (req, res) => {
+app.get('/blocos', (req, res) => {
     const select = 'SELECT * FROM Bloco';
  
     connection.query(select, (err, rows) => {
         if (err) {
-            console.error("Erro ao listar produtos: ", err);
-            res.status(500).send('Erro ao listar produtos');
+            console.error("Erro listar bloco: ", err);
+            res.status(500).send('Erro ao listar bloco');
             return;
         } else {
-            console.log("Produtos listados com sucesso");
+            console.log("Bloco listados com sucesso");
             res.send(`
                 <h1>Dados do Bloco</h1>
                 <table border="1">
                     <tr>
                         <th>ID</th>
-                        <th>Produto</th>
-                        <th>Quantidade</th>
-                        <th>Preço</th>
-                        <th>Ações</th>
+                        <th>Descrição</th>
+                        <th>Quantidade Apartamentos</th>
                     </tr>
                     ${rows.map(row => `
                         <tr>
-                            <td>${row.id}</td>
-                            <td>${row.produto}</td>
-                            <td>${row.quantidade}</td>
-                            <td>${row.preco}</td>
+                            <td>${row.id_bloco}</td>
+                            <td>${row.descricao}</td>
+                            <td>${row.qtd_apartamentos}</td>
                             <td><a href= "/deletar/${row.id}">Deletar</a></td>
                         </tr>`).join('')}
                 </table>
@@ -91,12 +88,48 @@ app.get('/deletar/:id', (req, res) => {
     const deletar = 'DELETE FROM Bloco WHERE id_bloco =?';
     connection.query(deletar, [id_bloco], (err, results) => {
         if (err) {
-            console.error("Erro ao deletar produtos: ", err);
-            res.status(500).send('Erro ao deletar produto');
+            console.error("Erro ao deletar bloco: ", err);
+            res.status(500).send('Erro ao deletar bloco');
             return;
         } else {
-            console.log("Produto deletado com sucesso");
-            res.redirect('/relatorio');
+            console.log("Bloco deletado com sucesso");
+            res.redirect('/blocos');
+        }
+    });
+});
+
+app.get('/atualizar/:id', (req, res) => {
+    const id = req.params.id;
+    const select = 'SELECT * FROM Bloco WHERE id_bloco = ?';
+
+    connection.query(select, [id_bloco], (err, rows) => {
+        if(!err && rows.length > 0) {
+            const Bloco = rows[0];
+            res.send(`
+                <html>
+                    <head>
+                        <tittle>Atualizar Bloco</h1>
+                        <form action="/atualizar/${bloco.id_bloco}" method="POST">
+                            <label for="nome">Id Bloco:</label>
+                            <input type="text" id="id_bloco" name="nome"
+                            value="${bloco.id_bloco}" required><br><br>
+
+                            <label for="quantidade">Quantidade de Apartamentos:></label>
+                            <input type="number" id="quantidade" name="quantidade"
+                            value="${bloco.qtd_apartamentos}" required><br><br>
+
+                            <label for="preco">Descrição:</label>
+                            <input type="number" step="0.01" id="preco" name="preco"
+                            value="${bloco.descricao}" required><br><br>
+
+                                <input type="submit" value="Atualizar">
+                        </form>
+                        <a href="/blocos">Voltar</a>
+                    </body>
+                </html>
+                `);
+        } else {
+            res.status(404).send('Bloco não encontrado');
         }
     });
 });
