@@ -69,7 +69,7 @@ app.get('/relatorio', (req, res) => {
                         <th>Produto</th>
                         <th>Quantidade</th>
                         <th>Preço</th>
-                        <th>Ações</th>
+                        <th>Açõe</th>
                     </tr>
                     ${rows.map(row => `
                         <tr>
