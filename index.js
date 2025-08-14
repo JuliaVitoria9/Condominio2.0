@@ -31,8 +31,8 @@ app.get('/cadastro', (req, res) => {
     res.sendFile(__dirname + '/cadastro.html');
 });
 
-app.post('/cadastrar',(req, res) => {
-    const produto = req.body.nome;
+app.post('/criar',(req, res) => {
+    const id_bloco = req.body.nome;
     const quantidade = req.body.quantidade;
     const preco = req.body.preco;
 
@@ -69,7 +69,7 @@ app.get('/relatorio', (req, res) => {
                         <th>Produto</th>
                         <th>Quantidade</th>
                         <th>Preço</th>
-                        <th>Açõe</th>
+                        <th>Ações</th>
                     </tr>
                     ${rows.map(row => `
                         <tr>
