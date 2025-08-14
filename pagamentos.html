@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Pagamentos</h1>
+    <p>Gerencie os pagamentos do condomínio aqui.</p>
+    <form action="/pagamentos" method="POST">
+        <label for="id_pagamento">Id do Pagamento:</label>
+        <input type="text" id="id_pagamento" name="id_pagamento" required>
+        <br>
+        <label for="id_morador">Id do Morador:</label>
+        <input type="text" id="id_morador" name="id_morador" required>
+        <br>
+        <label for="id_referencia">Id do Apartamento:</label>
+        <input type="text" id="id_referencia" name="id_referencia" required>
+        <br>
+        <label for="data_pagamento">Data do Pagamento:</label>
+        <input type="date" id="data_pagamento" name="data_pagamento" required>
+        <br>
+        <label for="valor_pago">Valor Pagamento:</label>
+        <input type="number" id="valor_pago" name="valor_pago" required>
+        <br>
+        <input type="submit" value="Registrar Pagamento">
+</body>
+</html>

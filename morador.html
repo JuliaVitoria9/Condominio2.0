@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Gerenciamento de Moradores</h1>
+    <p>Gerencie os moradores do condomínio aqui.</p>
+    <form action="/moradores" method="POST">
+        <label for="id_morador">Id do Morador:</label>
+        <input type="text" id="id_morador" name="id_morador" required>
+        <br>
+        <label for="nome">Nome do Morador:</label>
+        <input type="text" id="nome" name="nome" required>
+        <br>
+        <label for="cpf">CPF:</label>
+        <input type="text" id="cpf" name="cpf" required>
+        <br>
+        <label for="telefone">Telefone:</label>
+        <input type="text" id="telefone" name="telefone" required>
+        <br>
+        <label for="id_apartamento">Id do Apartamento:</label>
+        <input type="text" id="id_apartamento" name="id_apartamento" required>
+        <br>
+        <input type="submit" value="Criar Morador">
+    </form>
+    <p><a href="http://localhost:3000/">Voltar para Home</a></p>
+</body>
+</html>

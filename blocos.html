@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Blocos</h1>
+    <p>Gerencie os blocos do condomínio aqui.</p>
+    <form action="/blocos" method="POST">
+        <label for="id_bloco">Id do Bloco:</label>
+        <input type="text" id="id_bloco" name="id_bloco" required>
+        <br>
+        <label for="descricao">Descrição:</label>
+        <input type="text" id="descricao" name="descricao" required>
+        <br>
+        <label for="qtd_apartamentos">Quantidade de Apartamentos:</label>
+        <input type="number" id="qtd_apartamentos" name="qtd_apartamentos" required>
+        <br>
+        <input type="submit" value="Criar Bloco">
+    </form>
+    <p><a href="http://localhost:3000/">Voltar para Home</a></p>
+</body>
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Gerenciamento de Manutenções</h1>
+    <p>Gerencie as manutenções do condomínio aqui.</p>
+    <form action="/manutencao" method="POST">
+        <label for="id_manutencao">Id da Manutenção:</label>
+        <input type="text" id="id_manutencao" name="id_manutencao" required>
+        <br>
+        <label for="descricao">Descrição:</label>
+        <input type="text" id="descricao" name="descricao" required>
+        <br>
+        <label for="tipo_manutencao">Tipo(Elétrica, Hidráulica, Pintura, Jardinagem):</label>
+        <input type="text" id="tipo_manutencao" name="tipo_manutencao" required>
+        <br>
+        <label for="data_inicio">Data de Início:</label>
+        <input type="date" id="data_inicio" name="data_inicio" required>
+        <br>
+        <label for="data_fim">Data de Fim:</label>
+        <input type="date" id="data_fim" name="data_fim">
+        <br>
+        <input type="submit" value="Registrar Manutenção">
+    </form>
+    <p><a href="http://localhost:3000/">Voltar para Home</a></p>
+</body>
+</html>

@@ -27,8 +27,8 @@ app.get('/', (req, res) => {
     res.sendFile(__dirname + '/index.html');
 });
 
-app.get('/cadastro', (req, res) => {
-    res.sendFile(__dirname + '/cadastro.html');
+app.get('/blocos', (req, res) => {
+    res.sendFile(__dirname + '/blocos.html');
 });
 
 app.post('/criar',(req, res) => {
