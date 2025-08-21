@@ -12,17 +12,24 @@
         <label for="id_manutencao">Id da Manutenção:</label>
         <input type="text" id="id_manutencao" name="id_manutencao" required>
         <br>
-        <label for="descricao">Descrição:</label>
-        <input type="text" id="descricao" name="descricao" required>
+        <p>ID das Manutenções:
+            <br>
+            1 - Elétrica
+            <br>
+            2 - Hidráulica
+            <br>
+            3 - Pintura
+            <br>
+            4 - Jardinagem
+        </p>
+        <label for="id_tipo">Tipo Manutenção(ID):</label>
+        <input type="text" id="id_tipo" name="id_tipo" required>
         <br>
-        <label for="tipo_manutencao">Tipo(Elétrica, Hidráulica, Pintura, Jardinagem):</label>
-        <input type="text" id="tipo_manutencao" name="tipo_manutencao" required>
+        <label for="data0">Data:</label>
+        <input type="date" id="data0" name="data0" required>
         <br>
-        <label for="data_inicio">Data de Início:</label>
-        <input type="date" id="data_inicio" name="data_inicio" required>
-        <br>
-        <label for="data_fim">Data de Fim:</label>
-        <input type="date" id="data_fim" name="data_fim">
+        <label for="locall">Local:</label>
+        <input type="text" id="locall" name="locall" required>
         <br>
         <input type="submit" value="Registrar Manutenção">
     </form>
