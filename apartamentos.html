@@ -3,26 +3,192 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Apartamentos</title>
+</head>
+<body>
+  
+    <style>
+        /* Reset e fonte */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f4f5f7;
+            color: #333;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            color: #1f2937;
+        }
+
+        p {
+            margin-bottom: 25px;
+            color: #4b5563;
+        }
+
+        
+        form {
+            background-color: #ffffff;
+            padding: 25px 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 500px;
+            margin-bottom: 30px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #374151;
+        }
+
+        input[type="text"],
+        input[type="number"] {
+            width: 100%;
+            padding: 10px 12px;
+            margin-bottom: 15px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            transition: all 0.2s ease-in-out;
+        }
+
+        input[type="text"]:focus,
+        input[type="number"]:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 5px rgba(37, 99, 235, 0.3);
+            outline: none;
+        }
+
+        input[type="submit"] {
+            width: 100%;
+            padding: 12px;
+            background-color: #2563eb;
+            color: white;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #1e40af;
+        }
+
+        a {
+            display: inline-block;
+            margin-top: 20px;
+            color: #2563eb;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        /* Layout dos cartões de apartamentos */
+        .apartamentos-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            width: 100%;
+            max-width: 1000px;
+        }
+
+        .apartamento-card {
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            width: 220px;
+            overflow: hidden;
+            transition: transform 0.2s ease;
+        }
+
+        .apartamento-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .apartamento-img {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+            background-color: #d1d5db; 
+        }
+
+        .apartamento-info {
+            padding: 15px;
+        }
+
+        .apartamento-info h3 {
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+            color: #1f2937;
+        }
+
+        .apartamento-info p {
+            font-size: 0.9rem;
+            color: #4b5563;
+            margin-bottom: 5px;
+        }
+    </style>
 </head>
 <body>
     <h1>Cadastro de Apartamentos</h1>
     <p>Gerencie os apartamentos do condomínio aqui.</p>
+
     <form action="/apartamentos" method="POST">
         <label for="id">Id do Apartamento:</label>
         <input type="text" id="id" name="id" required>
-        <br>
+
         <label for="numero">Número do Apartamento:</label>
         <input type="text" id="numero" name="numero" required>
-        <br>
+
         <label for="andar">Andar:</label>
         <input type="text" id="andar" name="andar" required>
-        <br>
+
         <label for="id_bloco">Id do Bloco:</label>
         <input type="text" id="id_bloco" name="id_bloco" required>
-        <br>
+
+    
+
         <input type="submit" value="Criar Apartamento">
     </form>
-    <p><a href="http://localhost:3000/">Voltar para Home</a></p>
+
+    <div class="apartamentos-container">
+       
+        <div class="apartamento-card">
+            <img class="apartamento-img" src="https://via.placeholder.com/220x120" alt="Apartamento">
+            <div class="apartamento-info">
+                <h3>Apartamento 101</h3>
+                <p>Bloco A</p>
+                <p>Andar: 1</p>
+            </div>
+        </div>
+
+        <div class="apartamento-card">
+            <img class="apartamento-img" src="https://via.placeholder.com/220x120" alt="Apartamento">
+            <div class="apartamento-info">
+                <h3>Apartamento 102</h3>
+                <p>Bloco B</p>
+                <p>Andar: 1</p>
+            </div>
+        </div>
+    </div>
+
+    <a href="http://localhost:3000/">Voltar para Home</a>
 </body>
 </html>

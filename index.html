@@ -4,15 +4,165 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>* {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 50px;
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        header h1 {
+            color: #3e6cec;
+            font-size: 24px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #333;
+            margin-left: 25px;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: #3e6cec;
+        }
+
+        .hero {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 50px;
+            background: linear-gradient(180deg, #ffffff 60%, #e0f0ff 100%);
+        }
+
+        .hero-text {
+            max-width: 50%;
+        }
+
+        .hero-text h2 {
+            color: #3e6cec;
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
+        .hero-text p {
+            font-size: 18px;
+            margin-bottom: 30px;
+        }
+
+        .hero-text a {
+            background-color: #3e6cec;
+            color: #fff;
+            padding: 12px 25px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+
+        .hero-text a:hover {
+            background-color: #3e6cec;
+        }
+
+        .hero-img img {
+            max-width: 400px;
+        }
+
+        .links-section {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            padding: 50px;
+            gap: 20px;
+        }
+
+        .links-section a {
+            display: block;
+            width: 180px;
+            text-align: center;
+            padding: 20px;
+            background-color: #3e6cec;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+
+        .links-section a:hover {
+            background-color: #3e6cec;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #333;
+            color: #fff;
+        }
+
+        @media(max-width: 768px){
+            .hero {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .hero-text, .hero-img {
+                max-width: 100%;
+            }
+
+            .hero-img img {
+                margin-top: 30px;
+            }
+        }
+    </style>
 </head>
 <body>
-    <h1>Sistema de Gerenciamento de Condomínio</h1>
-    <p>Bem-vindo ao sistema de gerenciamento de condomínio. Aqui você pode gerenciar moradores, apartamentos e muito mais.</p>
-    <p><a href="http://localhost:3000/blocos">Blocos</a></p>
-    <p><a href="http://localhost:3000/apartamentos">Apartamentos</a></p>
-    <p><a href="http://localhost:3000/moradores">Moradores</a></p>
-    <p><a href="http://localhost:3000/referencia">Referência</a></p>
-    <p><a href="http://localhost:3000/pagamentos">Pagamentos</a></p>
-    <p><a href="http://localhost:3000/manutencao">Manutenções</a></p>
-</body>
-</html>
+    <header>
+        <h1>SGC</h1>
+        <nav>
+            <a href="#">Home</a>
+            <a href="#">Sobre</a>
+            <a href="#">Contato</a>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="hero-text">
+            <h2>Bem-vindo ao Sistema de Gerenciamento de Condomínio</h2>
+            <p>Gerencie moradores, apartamentos, pagamentos e manutenções.</p>
+            
+        </div>
+        <div class="hero-img">
+            <img src="condominio-residencial.webp" alt="">
+            
+        </div>
+    </section>
+
+    <section class="links-section">
+        <a href="http://localhost:3000/blocos">Blocos</a>
+        <a href="http://localhost:3000/apartamentos">Apartamentos</a>
+        <a href="http://localhost:3000/moradores">Moradores</a>
+        <a href="http://localhost:3000/referencia">Referência</a>
+        <a href="http://localhost:3000/pagamentos">Pagamentos</a>
+        <a href="http://localhost:3000/manutencao">Manutenções</a>
+    </section>
+
+<footer>
+        &copy; 2025 Sistema de Gerenciamento de Condomínio
+    </footer>
