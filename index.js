@@ -1,6 +1,7 @@
 const mysql = require('mysql2');
 const express = require('express');
 const bodyParser = require('body-parser');
+const path = require('path');
 
 const app = express();
 
@@ -41,30 +42,105 @@ app.get('/listar-blocos', (req, res) => {
             return;
         } else {
             res.send(`
-                <h1>Dados do Bloco</h1>
-                <table border="1">
-                    <tr>
-                        <th>ID</th>
-                        <th>Descrição</th>
-                        <th>Quantidade Apartamentos</th>
-                        <th>Ações</th>
-                    </tr>
-                    ${rows.map(row => `
+                <!DOCTYPE html>
+                <html lang="pt-br">
+                <head>
+                    <meta charset="UTF-8">
+                    <title>Listagem de Blocos</title>
+                    <style>
+                        body {
+                            font-family: Arial, sans-serif;
+                            background-color: #f4f6f8;
+                            margin: 40px;
+                            color: #333;
+                        }
+
+                        h1 {
+                            text-align: center;
+                            color: #2c3e50;
+                            margin-bottom: 30px;
+                        }
+
+                        table {
+                            width: 100%;
+                            border-collapse: collapse;
+                            background-color: #fff;
+                            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+                        }
+
+                        th, td {
+                            padding: 12px 16px;
+                            text-align: left;
+                            border-bottom: 1px solid #ddd;
+                        }
+
+                        th {
+                            background-color: #34495e;
+                            color: #fff;
+                            font-weight: 600;
+                        }
+
+                        tr:hover {
+                            background-color: #f1f1f1;
+                        }
+
+                        .acoes a {
+                            margin-right: 10px;
+                            text-decoration: none;
+                            color: #2980b9;
+                            font-weight: bold;
+                        }
+
+                        .acoes a:hover {
+                            text-decoration: underline;
+                            color: #1c5980;
+                        }
+
+                        .voltar {
+                            display: inline-block;
+                            margin-top: 20px;
+                            background-color: #2ecc71;
+                            color: white;
+                            padding: 10px 20px;
+                            border-radius: 4px;
+                            text-align: center;
+                            text-decoration: none;
+                            font-weight: bold;
+                        }
+
+                        .voltar:hover {
+                            background-color: #27ae60;
+                        }
+                    </style>
+                </head>
+                <body>
+                    <h1>Dados do Bloco</h1>
+                    <table>
                         <tr>
-                            <td>${row.id_bloco}</td>
-                            <td>${row.descricao}</td>
-                            <td>${row.qtd_apartamentos}</td>
-                            <td>
-                                <a href="/deletar-blocos/${row.id_bloco}">Deletar</a>
-                                <a href="/atualizar-blocos/${row.id_bloco}">Atualizar</a>
-                            </td>
-                        </tr>`).join('')}
-                </table>
-                <a href="/">Voltar</a>
+                            <th>ID</th>
+                            <th>Descrição</th>
+                            <th>Quantidade Apartamentos</th>
+                            <th>Ações</th>
+                        </tr>
+                        ${rows.map(row => `
+                            <tr>
+                                <td>${row.id_bloco}</td>
+                                <td>${row.descricao}</td>
+                                <td>${row.qtd_apartamentos}</td>
+                                <td class="acoes">
+                                    <a href="/deletar-blocos/${row.id_bloco}">Deletar</a>
+                                    <a href="/atualizar-blocos/${row.id_bloco}">Atualizar</a>
+                                </td>
+                            </tr>`).join('')}
+                    </table>
+                    <a href="/" class="voltar">Voltar</a>
+                </body>
+                </html>
             `);
         }
     });
 });
+
 
 app.post('/blocos', (req, res) => {
     const { id_bloco, descricao, qtd_apartamentos } = req.body;
@@ -104,6 +180,68 @@ app.get('/atualizar-blocos/:id_bloco', (req, res) => {
                 <html>
                     <head>
                         <title>Atualizar Bloco</title>
+                        <style>
+                        body {
+                            font-family: Arial, sans-serif;
+                            background-color: #f4f6f8;
+                            margin: 40px;
+                            color: #333;
+                        }
+                        h1 {
+                            text-align: center;
+                            color: #2c3e50;
+                            margin-bottom: 30px;
+                        }
+                        form {
+                            max-width: 500px;
+                            margin: 0 auto;
+                            background-color: #fff;
+                            padding: 30px;
+                            border-radius: 8px;
+                            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+                        }
+                        label {
+                            display: block;
+                            margin-bottom: 8px;
+                            font-weight: bold;
+                        }
+                        input[type="text"] {
+                            width: 100%;
+                            padding: 10px;
+                            margin-bottom: 20px;
+                            border: 1px solid #ccc;
+                            border-radius: 4px;
+                        }
+                        input[type="submit"] {
+                            background-color: #2980b9;
+                            color: white;
+                            padding: 10px 20px;
+                            border: none;
+                            border-radius: 4px;
+                            cursor: pointer;
+                            font-weight: bold;
+                        }
+                        input[type="submit"]:hover {
+                            background-color: #1c5980;
+                        }
+                        .voltar {
+                            display: block;
+                            text-align: center;
+                            margin-top: 20px;
+                            background-color: #2ecc71;
+                            color: white;
+                            padding: 10px 20px;
+                            border-radius: 4px;
+                            text-decoration: none;
+                            font-weight: bold;
+                            max-width: 150px;
+                            margin-left: auto;
+                            margin-right: auto;
+                        }
+                        .voltar:hover {
+                            background-color: #27ae60;
+                        }
+                    </style>
                     </head>
                     <body>
                         <form action="/atualizar-blocos/${bloco.id_bloco}" method="POST">
@@ -165,28 +303,102 @@ app.get('/listar-apartamentos', (req, res) => {
             return;
         } else {
             res.send(`
-                <h1>Dados do Apartamento</h1>
-                <table border="1">
-                    <tr>
-                        <th>ID</th>
-                        <th>Número</th>
-                        <th>Andar</th>
-                        <th>ID Bloco</th>
-                        <th>Ações</th>
-                    </tr>
-                    ${rows.map(row => `
+                <!DOCTYPE html>
+                <html lang="pt-br">
+                <head>
+                    <meta charset="UTF-8">
+                    <title>Listagem de Apartamentos</title>
+                    <style>
+                        body {
+                            font-family: Arial, sans-serif;
+                            background-color: #f4f6f8;
+                            margin: 40px;
+                            color: #333;
+                        }
+
+                        h1 {
+                            text-align: center;
+                            color: #2c3e50;
+                            margin-bottom: 30px;
+                        }
+
+                        table {
+                            width: 100%;
+                            border-collapse: collapse;
+                            background-color: #fff;
+                            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+                        }
+
+                        th, td {
+                            padding: 12px 16px;
+                            text-align: left;
+                            border-bottom: 1px solid #ddd;
+                        }
+
+                        th {
+                            background-color: #34495e;
+                            color: #fff;
+                            font-weight: 600;
+                        }
+
+                        tr:hover {
+                            background-color: #f1f1f1;
+                        }
+
+                        .acoes a {
+                            margin-right: 10px;
+                            text-decoration: none;
+                            color: #2980b9;
+                            font-weight: bold;
+                        }
+
+                        .acoes a:hover {
+                            text-decoration: underline;
+                            color: #1c5980;
+                        }
+
+                        .voltar {
+                            display: inline-block;
+                            margin-top: 20px;
+                            background-color: #2ecc71;
+                            color: white;
+                            padding: 10px 20px;
+                            border-radius: 4px;
+                            text-align: center;
+                            text-decoration: none;
+                            font-weight: bold;
+                        }
+
+                        .voltar:hover {
+                            background-color: #27ae60;
+                        }
+                    </style>
+                </head>
+                <body>
+                    <h1>Dados do Apartamento</h1>
+                    <table>
                         <tr>
-                            <td>${row.id_apartamento}</td>
-                            <td>${row.numero}</td>
-                            <td>${row.andar}</td>
-                            <td>${row.id_bloco}</td>
-                            <td>
-                                <a href="/deletar-apartamentos/${row.id_apartamento}">Deletar</a>
-                                <a href="/atualizar-apartamentos/${row.id_apartamento}">Atualizar</a>
-                            </td>
-                        </tr>`).join('')}
-                </table>
-                <a href="/">Voltar</a>
+                            <th>ID</th>
+                            <th>Número</th>
+                            <th>Andar</th>
+                            <th>ID Bloco</th>
+                            <th>Ações</th>
+                        </tr>
+                        ${rows.map(row => `
+                            <tr>
+                                <td>${row.id_apartamento}</td>
+                                <td>${row.numero}</td>
+                                <td>${row.andar}</td>
+                                <td>${row.id_bloco}</td>
+                                <td class="acoes">
+                                    <a href="/deletar-apartamentos/${row.id_apartamento}">Deletar</a>
+                                    <a href="/atualizar-apartamentos/${row.id_apartamento}">Atualizar</a>
+                                </td>
+                            </tr>`).join('')}
+                    </table>
+                    <a href="/" class="voltar">Voltar</a>
+                </body>
+                </html>
             `);
         }
     });
@@ -216,6 +428,68 @@ app.get('/atualizar-apartamentos/:id_apartamento', (req, res) => {
                 <html>
                     <head>
                         <title>Atualizar Apartamento</title>
+                        <style>
+                        body {
+                            font-family: Arial, sans-serif;
+                            background-color: #f4f6f8;
+                            margin: 40px;
+                            color: #333;
+                        }
+                        h1 {
+                            text-align: center;
+                            color: #2c3e50;
+                            margin-bottom: 30px;
+                        }
+                        form {
+                            max-width: 500px;
+                            margin: 0 auto;
+                            background-color: #fff;
+                            padding: 30px;
+                            border-radius: 8px;
+                            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+                        }
+                        label {
+                            display: block;
+                            margin-bottom: 8px;
+                            font-weight: bold;
+                        }
+                        input[type="text"] {
+                            width: 100%;
+                            padding: 10px;
+                            margin-bottom: 20px;
+                            border: 1px solid #ccc;
+                            border-radius: 4px;
+                        }
+                        input[type="submit"] {
+                            background-color: #2980b9;
+                            color: white;
+                            padding: 10px 20px;
+                            border: none;
+                            border-radius: 4px;
+                            cursor: pointer;
+                            font-weight: bold;
+                        }
+                        input[type="submit"]:hover {
+                            background-color: #1c5980;
+                        }
+                        .voltar {
+                            display: block;
+                            text-align: center;
+                            margin-top: 20px;
+                            background-color: #2ecc71;
+                            color: white;
+                            padding: 10px 20px;
+                            border-radius: 4px;
+                            text-decoration: none;
+                            font-weight: bold;
+                            max-width: 150px;
+                            margin-left: auto;
+                            margin-right: auto;
+                        }
+                        .voltar:hover {
+                            background-color: #27ae60;
+                        }
+                    </style>
                     </head>
                     <body>
                         <form action="/atualizar-apartamentos/${apartamento.id_apartamento}" method="POST">
@@ -278,34 +552,110 @@ app.get('/listar-moradores', (req, res) => {
             return;
         } else {
             res.send(`
-                <h1>Dados do Morador</h1>
-                <table border="1">
-                    <tr>
-                        <th>ID</th>
-                        <th>Nome</th>
-                        <th>CPF</th>
-                        <th>Telefone</th>
-                        <th>ID Apartamento</th>
-                        <th>Ações</th>
-                    </tr>
-                    ${rows.map(row => `
+                <!DOCTYPE html>
+                <html lang="pt-br">
+                <head>
+                    <meta charset="UTF-8">
+                    <title>Listagem de Moradores</title>
+                    <style>
+                        body {
+                            font-family: Arial, sans-serif;
+                            background-color: #f4f6f8;
+                            margin: 40px;
+                            color: #333;
+                        }
+
+                        h1 {
+                            text-align: center;
+                            color: #2c3e50;
+                            margin-bottom: 30px;
+                        }
+
+                        table {
+                            width: 100%;
+                            border-collapse: collapse;
+                            background-color: #fff;
+                            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+                        }
+
+                        th, td {
+                            padding: 12px 16px;
+                            text-align: left;
+                            border-bottom: 1px solid #ddd;
+                        }
+
+                        th {
+                            background-color: #34495e;
+                            color: #fff;
+                            font-weight: 600;
+                        }
+
+                        tr:hover {
+                            background-color: #f1f1f1;
+                        }
+
+                        .acoes a {
+                            margin-right: 10px;
+                            text-decoration: none;
+                            color: #2980b9;
+                            font-weight: bold;
+                        }
+
+                        .acoes a:hover {
+                            text-decoration: underline;
+                            color: #1c5980;
+                        }
+
+                        .voltar {
+                            display: inline-block;
+                            margin-top: 20px;
+                            background-color: #2ecc71;
+                            color: white;
+                            padding: 10px 20px;
+                            border-radius: 4px;
+                            text-align: center;
+                            text-decoration: none;
+                            font-weight: bold;
+                        }
+
+                        .voltar:hover {
+                            background-color: #27ae60;
+                        }
+                    </style>
+                </head>
+                <body>
+                    <h1>Dados do Morador</h1>
+                    <table>
                         <tr>
-                            <td>${row.id_morador}</td>
-                            <td>${row.nome}</td>
-                            <td>${row.cpf}</td>
-                            <td>${row.telefone}</td>
-                            <td>${row.id_apartamento}</td>
-                            <td>
-                                <a href="/deletar-moradores/${row.id_morador}">Deletar</a>
-                                <a href="/atualizar-moradores/${row.id_morador}">Atualizar</a>
-                            </td>
-                        </tr>`).join('')}
-                </table>
-                <a href="/">Voltar</a>
+                            <th>ID</th>
+                            <th>Nome</th>
+                            <th>CPF</th>
+                            <th>Telefone</th>
+                            <th>ID Apartamento</th>
+                            <th>Ações</th>
+                        </tr>
+                        ${rows.map(row => `
+                            <tr>
+                                <td>${row.id_morador}</td>
+                                <td>${row.nome}</td>
+                                <td>${row.cpf}</td>
+                                <td>${row.telefone}</td>
+                                <td>${row.id_apartamento}</td>
+                                <td class="acoes">
+                                    <a href="/deletar-moradores/${row.id_morador}">Deletar</a>
+                                    <a href="/atualizar-moradores/${row.id_morador}">Atualizar</a>
+                                </td>
+                            </tr>`).join('')}
+                    </table>
+                    <a href="/" class="voltar">Voltar</a>
+                </body>
+                </html>
             `);
         }
     });
 });
+
+
 
 app.get('/deletar-moradores/:id_morador', (req, res) => {
     const id_morador = req.params.id_morador;
@@ -331,6 +681,68 @@ app.get('/atualizar-moradores/:id_morador', (req, res) => {
                 <html>
                     <head>
                         <title>Atualizar Morador</title>
+                        <style>
+                        body {
+                            font-family: Arial, sans-serif;
+                            background-color: #f4f6f8;
+                            margin: 40px;
+                            color: #333;
+                        }
+                        h1 {
+                            text-align: center;
+                            color: #2c3e50;
+                            margin-bottom: 30px;
+                        }
+                        form {
+                            max-width: 500px;
+                            margin: 0 auto;
+                            background-color: #fff;
+                            padding: 30px;
+                            border-radius: 8px;
+                            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+                        }
+                        label {
+                            display: block;
+                            margin-bottom: 8px;
+                            font-weight: bold;
+                        }
+                        input[type="text"] {
+                            width: 100%;
+                            padding: 10px;
+                            margin-bottom: 20px;
+                            border: 1px solid #ccc;
+                            border-radius: 4px;
+                        }
+                        input[type="submit"] {
+                            background-color: #2980b9;
+                            color: white;
+                            padding: 10px 20px;
+                            border: none;
+                            border-radius: 4px;
+                            cursor: pointer;
+                            font-weight: bold;
+                        }
+                        input[type="submit"]:hover {
+                            background-color: #1c5980;
+                        }
+                        .voltar {
+                            display: block;
+                            text-align: center;
+                            margin-top: 20px;
+                            background-color: #2ecc71;
+                            color: white;
+                            padding: 10px 20px;
+                            border-radius: 4px;
+                            text-decoration: none;
+                            font-weight: bold;
+                            max-width: 150px;
+                            margin-left: auto;
+                            margin-right: auto;
+                        }
+                        .voltar:hover {
+                            background-color: #27ae60;
+                        }
+                    </style>
                     </head>
                     <body>
                         <form action="/atualizar-moradores/${morador.id_morador}" method="POST">
@@ -367,18 +779,17 @@ app.post('/atualizar-moradores/:id_morador', (req, res) => {
     });
 });
 
-app.get('/referencias', (req, res) => {
-    res.sendFile(__dirname + '/referencia.html');
+app.get('/referencia', (req, res) => {
+    res.sendFile(path.join(__dirname, 'referencia.html'));
 });
 
-app.post('/referencias', (req, res) => {
+app.post('/referencia', (req, res) => {
     const { id_referencia, mes, ano, valor_condominio, vencimento } = req.body;
     const insert = 'INSERT INTO Referencia (id_referencia, mes, ano, valor_condominio, vencimento) VALUES (?, ?, ?, ?, ?)';
     connection.query(insert, [id_referencia, mes, ano, valor_condominio, vencimento], (err) => {
         if (err) {
             console.error("Erro ao cadastrar referência: ", err);
             res.status(500).send('Erro ao cadastrar referência');
-            return;
         } else {
             res.redirect('/listar-referencias');
         }
@@ -391,33 +802,97 @@ app.get('/listar-referencias', (req, res) => {
         if (err) {
             console.error("Erro listar referências: ", err);
             res.status(500).send('Erro ao listar referências');
-            return;
         } else {
             res.send(`
-                <h1>Dados da Referência</h1>
-                <table border="1">
-                    <tr>
-                        <th>ID</th>
-                        <th>Mês</th>
-                        <th>Ano</th>
-                        <th>Valor do Condomínio</th>
-                        <th>Vencimento</th>
-                        <th>Ações</th>
-                    </tr>
-                    ${rows.map(row => `
+                <!DOCTYPE html>
+                <html lang="pt-br">
+                <head>
+                    <meta charset="UTF-8">
+                    <title>Listagem de Referências</title>
+                    <style>
+                        body {
+                            font-family: Arial, sans-serif;
+                            background-color: #f4f6f8;
+                            margin: 40px;
+                            color: #333;
+                        }
+                        h1 {
+                            text-align: center;
+                            color: #2c3e50;
+                            margin-bottom: 30px;
+                        }
+                        table {
+                            width: 100%;
+                            border-collapse: collapse;
+                            background-color: #fff;
+                            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+                        }
+                        th, td {
+                            padding: 12px 16px;
+                            text-align: left;
+                            border-bottom: 1px solid #ddd;
+                        }
+                        th {
+                            background-color: #34495e;
+                            color: #fff;
+                            font-weight: 600;
+                        }
+                        tr:hover {
+                            background-color: #f1f1f1;
+                        }
+                        .acoes a {
+                            margin-right: 10px;
+                            text-decoration: none;
+                            color: #2980b9;
+                            font-weight: bold;
+                        }
+                        .acoes a:hover {
+                            text-decoration: underline;
+                            color: #1c5980;
+                        }
+                        .voltar {
+                            display: inline-block;
+                            margin-top: 20px;
+                            background-color: #2ecc71;
+                            color: white;
+                            padding: 10px 20px;
+                            border-radius: 4px;
+                            text-align: center;
+                            text-decoration: none;
+                            font-weight: bold;
+                        }
+                        .voltar:hover {
+                            background-color: #27ae60;
+                        }
+                    </style>
+                </head>
+                <body>
+                    <h1>Dados da Referência</h1>
+                    <table>
                         <tr>
-                            <td>${row.id_referencia}</td>
-                            <td>${row.mes}</td>
-                            <td>${row.ano}</td>
-                            <td>${row.valor_condominio}</td>
-                            <td>${row.vencimento}</td>
-                            <td>
-                                <a href="/deletar-referencias/${row.id_referencia}">Deletar</a>
-                                <a href="/atualizar-referencias/${row.id_referencia}">Atualizar</a>
-                            </td>
-                        </tr>`).join('')}
-                </table>
-                <a href="/">Voltar</a>
+                            <th>ID</th>
+                            <th>Mês</th>
+                            <th>Ano</th>
+                            <th>Valor do Condomínio</th>
+                            <th>Vencimento</th>
+                            <th>Ações</th>
+                        </tr>
+                        ${rows.map(row => `
+                            <tr>
+                                <td>${row.id_referencia}</td>
+                                <td>${row.mes}</td>
+                                <td>${row.ano}</td>
+                                <td>R$ ${parseFloat(row.valor_condominio).toFixed(2)}</td>
+                                <td>${row.vencimento}</td>
+                                <td class="acoes">
+                                    <a href="/deletar-referencias/${row.id_referencia}">Deletar</a>
+                                    <a href="/atualizar-referencias/${row.id_referencia}">Atualizar</a>
+                                </td>
+                            </tr>`).join('')}
+                    </table>
+                    <a href="/" class="voltar">Voltar</a>
+                </body>
+                </html>
             `);
         }
     });
@@ -430,7 +905,6 @@ app.get('/deletar-referencias/:id_referencia', (req, res) => {
         if (err) {
             console.error("Erro ao deletar referência: ", err);
             res.status(500).send('Erro ao deletar referência');
-            return;
         } else {
             res.redirect('/listar-referencias');
         }
@@ -447,6 +921,68 @@ app.get('/atualizar-referencias/:id_referencia', (req, res) => {
                 <html>
                     <head>
                         <title>Atualizar Referência</title>
+                        <style>
+                        body {
+                            font-family: Arial, sans-serif;
+                            background-color: #f4f6f8;
+                            margin: 40px;
+                            color: #333;
+                        }
+                        h1 {
+                            text-align: center;
+                            color: #2c3e50;
+                            margin-bottom: 30px;
+                        }
+                        form {
+                            max-width: 500px;
+                            margin: 0 auto;
+                            background-color: #fff;
+                            padding: 30px;
+                            border-radius: 8px;
+                            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+                        }
+                        label {
+                            display: block;
+                            margin-bottom: 8px;
+                            font-weight: bold;
+                        }
+                        input[type="text"] {
+                            width: 100%;
+                            padding: 10px;
+                            margin-bottom: 20px;
+                            border: 1px solid #ccc;
+                            border-radius: 4px;
+                        }
+                        input[type="submit"] {
+                            background-color: #2980b9;
+                            color: white;
+                            padding: 10px 20px;
+                            border: none;
+                            border-radius: 4px;
+                            cursor: pointer;
+                            font-weight: bold;
+                        }
+                        input[type="submit"]:hover {
+                            background-color: #1c5980;
+                        }
+                        .voltar {
+                            display: block;
+                            text-align: center;
+                            margin-top: 20px;
+                            background-color: #2ecc71;
+                            color: white;
+                            padding: 10px 20px;
+                            border-radius: 4px;
+                            text-decoration: none;
+                            font-weight: bold;
+                            max-width: 150px;
+                            margin-left: auto;
+                            margin-right: auto;
+                        }
+                        .voltar:hover {
+                            background-color: #27ae60;
+                        }
+                    </style>
                     </head>
                     <body>
                         <form action="/atualizar-referencias/${referencia.id_referencia}" method="POST">
@@ -510,34 +1046,100 @@ app.get('/listar-pagamentos', (req, res) => {
             return;
         } else {
             res.send(`
-                <h1>Dados do Pagamento</h1>
-                <table border="1">
-                    <tr>
-                        <th>ID Pagamento</th>
-                        <th>ID Morador</th>
-                        <th>ID Referência</th>
-                        <th>Data do Pagamento</th>
-                        <th>Valor Pago</th>
-                        <th>Ações</th>
-                    </tr>
-                    ${rows.map(row => `
+                <!DOCTYPE html>
+                <html lang="pt-br">
+                <head>
+                    <meta charset="UTF-8">
+                    <title>Listagem de Pagamentos</title>
+                    <style>
+                        body {
+                            font-family: Arial, sans-serif;
+                            background-color: #f4f6f8;
+                            margin: 40px;
+                            color: #333;
+                        }
+                        h1 {
+                            text-align: center;
+                            color: #2c3e50;
+                            margin-bottom: 30px;
+                        }
+                        table {
+                            width: 100%;
+                            border-collapse: collapse;
+                            background-color: #fff;
+                            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+                        }
+                        th, td {
+                            padding: 12px 16px;
+                            text-align: left;
+                            border-bottom: 1px solid #ddd;
+                        }
+                        th {
+                            background-color: #34495e;
+                            color: #fff;
+                            font-weight: 600;
+                        }
+                        tr:hover {
+                            background-color: #f1f1f1;
+                        }
+                        .acoes a {
+                            margin-right: 10px;
+                            text-decoration: none;
+                            color: #2980b9;
+                            font-weight: bold;
+                        }
+                        .acoes a:hover {
+                            text-decoration: underline;
+                            color: #1c5980;
+                        }
+                        .voltar {
+                            display: inline-block;
+                            margin-top: 20px;
+                            background-color: #2ecc71;
+                            color: white;
+                            padding: 10px 20px;
+                            border-radius: 4px;
+                            text-align: center;
+                            text-decoration: none;
+                            font-weight: bold;
+                        }
+                        .voltar:hover {
+                            background-color: #27ae60;
+                        }
+                    </style>
+                </head>
+                <body>
+                    <h1>Dados do Pagamento</h1>
+                    <table>
                         <tr>
-                            <td>${row.id_pagamento}</td>
-                            <td>${row.id_morador}</td>
-                            <td>${row.id_referencia}</td>
-                            <td>${row.data_pagamento}</td>
-                            <td>${row.valor_pago}</td>
-                            <td>
-                                <a href="/deletar-pagamentos/${row.id_pagamento}">Deletar</a>
-                                <a href="/atualizar-pagamentos/${row.id_pagamento}">Atualizar</a>
-                            </td>
-                        </tr>`).join('')}
-                </table>
-                <a href="/">Voltar</a>
+                            <th>ID Pagamento</th>
+                            <th>ID Morador</th>
+                            <th>ID Referência</th>
+                            <th>Data do Pagamento</th>
+                            <th>Valor Pago</th>
+                            <th>Ações</th>
+                        </tr>
+                        ${rows.map(row => `
+                            <tr>
+                                <td>${row.id_pagamento}</td>
+                                <td>${row.id_morador}</td>
+                                <td>${row.id_referencia}</td>
+                                <td>${row.data_pagamento}</td>
+                                <td>R$ ${parseFloat(row.valor_pago).toFixed(2)}</td>
+                                <td class="acoes">
+                                    <a href="/deletar-pagamentos/${row.id_pagamento}">Deletar</a>
+                                    <a href="/atualizar-pagamentos/${row.id_pagamento}">Atualizar</a>
+                                </td>
+                            </tr>`).join('')}
+                    </table>
+                    <a href="/" class="voltar">Voltar</a>
+                </body>
+                </html>
             `);
         }
     });
 });
+
 
 app.get('/deletar-pagamentos/:id_pagamento', (req, res) => {
     const id_pagamento = req.params.id_pagamento;
@@ -563,6 +1165,68 @@ app.get('/atualizar-pagamentos/:id_pagamento', (req, res) => {
                 <html>
                     <head>
                         <title>Atualizar Pagamento</title>
+                        <style>
+                        body {
+                            font-family: Arial, sans-serif;
+                            background-color: #f4f6f8;
+                            margin: 40px;
+                            color: #333;
+                        }
+                        h1 {
+                            text-align: center;
+                            color: #2c3e50;
+                            margin-bottom: 30px;
+                        }
+                        form {
+                            max-width: 500px;
+                            margin: 0 auto;
+                            background-color: #fff;
+                            padding: 30px;
+                            border-radius: 8px;
+                            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+                        }
+                        label {
+                            display: block;
+                            margin-bottom: 8px;
+                            font-weight: bold;
+                        }
+                        input[type="text"] {
+                            width: 100%;
+                            padding: 10px;
+                            margin-bottom: 20px;
+                            border: 1px solid #ccc;
+                            border-radius: 4px;
+                        }
+                        input[type="submit"] {
+                            background-color: #2980b9;
+                            color: white;
+                            padding: 10px 20px;
+                            border: none;
+                            border-radius: 4px;
+                            cursor: pointer;
+                            font-weight: bold;
+                        }
+                        input[type="submit"]:hover {
+                            background-color: #1c5980;
+                        }
+                        .voltar {
+                            display: block;
+                            text-align: center;
+                            margin-top: 20px;
+                            background-color: #2ecc71;
+                            color: white;
+                            padding: 10px 20px;
+                            border-radius: 4px;
+                            text-decoration: none;
+                            font-weight: bold;
+                            max-width: 150px;
+                            margin-left: auto;
+                            margin-right: auto;
+                        }
+                        .voltar:hover {
+                            background-color: #27ae60;
+                        }
+                    </style>
                     </head>
                     <body>
                         <form action="/atualizar-pagamentos/${pagamento.id_pagamento}" method="POST">
@@ -600,11 +1264,11 @@ app.post('/atualizar-pagamentos/:id_pagamento', (req, res) => {
 });
 
 
-app.get('/manutencoes', (req, res) => {
+app.get('/manutencao', (req, res) => {
     res.sendFile(__dirname + '/manutencao.html');
 });
 
-app.post('/manutencoes', (req, res) => {
+app.post('/manutencao', (req, res) => {
     const { id_manutencao, id_tipo, data0, locall } = req.body;
     const insert = 'INSERT INTO Manutencao (id_manutencao, id_tipo, data0, locall) VALUES (?, ?, ?, ?)';
     connection.query(insert, [id_manutencao, id_tipo, data0, locall], (err) => {
@@ -618,6 +1282,7 @@ app.post('/manutencoes', (req, res) => {
     });
 });
 
+
 app.get('/listar-manutencoes', (req, res) => {
     const select = 'SELECT * FROM Manutencao';
     connection.query(select, (err, rows) => {
@@ -627,28 +1292,93 @@ app.get('/listar-manutencoes', (req, res) => {
             return;
         } else {
             res.send(`
-                <h1>Dados da Manutenção</h1>
-                <table border="1">
-                    <tr>
-                        <th>ID Manutenção</th>
-                        <th>ID Tipo</th>
-                        <th>Data da Manutenção</th>
-                        <th>Local da Manutenção</th>
-                        <th>Ações</th>
-                    </tr>
-                    ${rows.map(row => `
+                <!DOCTYPE html>
+                <html lang="pt-br">
+                <head>
+                    <meta charset="UTF-8">
+                    <title>Listagem de Manutenções</title>
+                    <style>
+                        body {
+                            font-family: Arial, sans-serif;
+                            background-color: #f4f6f8;
+                            margin: 40px;
+                            color: #333;
+                        }
+                        h1 {
+                            text-align: center;
+                            color: #2c3e50;
+                            margin-bottom: 30px;
+                        }
+                        table {
+                            width: 100%;
+                            border-collapse: collapse;
+                            background-color: #fff;
+                            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+                        }
+                        th, td {
+                            padding: 12px 16px;
+                            text-align: left;
+                            border-bottom: 1px solid #ddd;
+                        }
+                        th {
+                            background-color: #34495e;
+                            color: #fff;
+                            font-weight: 600;
+                        }
+                        tr:hover {
+                            background-color: #f1f1f1;
+                        }
+                        .acoes a {
+                            margin-right: 10px;
+                            text-decoration: none;
+                            color: #2980b9;
+                            font-weight: bold;
+                        }
+                        .acoes a:hover {
+                            text-decoration: underline;
+                            color: #1c5980;
+                        }
+                        .voltar {
+                            display: inline-block;
+                            margin-top: 20px;
+                            background-color: #2ecc71;
+                            color: white;
+                            padding: 10px 20px;
+                            border-radius: 4px;
+                            text-align: center;
+                            text-decoration: none;
+                            font-weight: bold;
+                        }
+                        .voltar:hover {
+                            background-color: #27ae60;
+                        }
+                    </style>
+                </head>
+                <body>
+                    <h1>Dados da Manutenção</h1>
+                    <table>
                         <tr>
-                            <td>${row.id_manutencao}</td>
-                            <td>${row.id_tipo}</td>
-                            <td>${row.data0}</td>
-                            <td>${row.locall}</td>
-                            <td>
-                                <a href="/deletar-manutencoes/${row.id_manutencao}">Deletar</a>
-                                <a href="/atualizar-manutencoes/${row.id_manutencao}">Atualizar</a>
-                            </td>
-                        </tr>`).join('')}
-                </table>
-                <a href="/">Voltar</a>
+                            <th>ID Manutenção</th>
+                            <th>ID Tipo</th>
+                            <th>Data da Manutenção</th>
+                            <th>Local da Manutenção</th>
+                            <th>Ações</th>
+                        </tr>
+                        ${rows.map(row => `
+                            <tr>
+                                <td>${row.id_manutencao}</td>
+                                <td>${row.id_tipo}</td>
+                                <td>${row.data0}</td>
+                                <td>${row.locall}</td>
+                                <td class="acoes">
+                                    <a href="/deletar-manutencoes/${row.id_manutencao}">Deletar</a>
+                                    <a href="/atualizar-manutencoes/${row.id_manutencao}">Atualizar</a>
+                                </td>
+                            </tr>`).join('')}
+                    </table>
+                    <a href="/" class="voltar">Voltar</a>
+                </body>
+                </html>
             `);
         }
     });
@@ -678,6 +1408,68 @@ app.get('/atualizar-manutencoes/:id_manutencao', (req, res) => {
                 <html>
                     <head>
                         <title>Atualizar Manutenção</title>
+                        <style>
+                        body {
+                            font-family: Arial, sans-serif;
+                            background-color: #f4f6f8;
+                            margin: 40px;
+                            color: #333;
+                        }
+                        h1 {
+                            text-align: center;
+                            color: #2c3e50;
+                            margin-bottom: 30px;
+                        }
+                        form {
+                            max-width: 500px;
+                            margin: 0 auto;
+                            background-color: #fff;
+                            padding: 30px;
+                            border-radius: 8px;
+                            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+                        }
+                        label {
+                            display: block;
+                            margin-bottom: 8px;
+                            font-weight: bold;
+                        }
+                        input[type="text"] {
+                            width: 100%;
+                            padding: 10px;
+                            margin-bottom: 20px;
+                            border: 1px solid #ccc;
+                            border-radius: 4px;
+                        }
+                        input[type="submit"] {
+                            background-color: #2980b9;
+                            color: white;
+                            padding: 10px 20px;
+                            border: none;
+                            border-radius: 4px;
+                            cursor: pointer;
+                            font-weight: bold;
+                        }
+                        input[type="submit"]:hover {
+                            background-color: #1c5980;
+                        }
+                        .voltar {
+                            display: block;
+                            text-align: center;
+                            margin-top: 20px;
+                            background-color: #2ecc71;
+                            color: white;
+                            padding: 10px 20px;
+                            border-radius: 4px;
+                            text-decoration: none;
+                            font-weight: bold;
+                            max-width: 150px;
+                            margin-left: auto;
+                            margin-right: auto;
+                        }
+                        .voltar:hover {
+                            background-color: #27ae60;
+                        }
+                    </style>
                     </head>
                     <body>
                         <form action="/atualizar-manutencoes/${manutencao.id_manutencao}" method="POST">
@@ -708,6 +1500,245 @@ app.post('/atualizar-manutencoes/:id_manutencao', (req, res) => {
             res.status(500).send('Erro ao atualizar manutenção');
         } else {
             res.redirect('/listar-manutencoes');
+        }
+    });
+});
+
+app.get('/tipo-manutencao', (req, res) => {
+    res.sendFile(__dirname + '/tipoManutencao.html');
+});
+
+app.post('/tipo-manutencao', (req, res) => {
+    const {id_tipo, descricao } = req.body;
+    const insert = 'INSERT INTO Tipo_Manutencao (id_tipo, descricao) VALUES (?, ?)';
+    connection.query(insert, [id_tipo, descricao], (err) => {
+        if (err) {
+            console.error("Erro ao cadastrar tipo de manutenção: ", err);
+            res.status(500).send('Erro ao cadastrar tipo de manutenção');
+            return;
+        } else {
+            res.redirect('/listar-tipo-manutencao');
+        }
+    });
+});
+
+
+app.get('/listar-tipo-manutencao', (req, res) => {
+    const select = 'SELECT * FROM Tipo_Manutencao';
+    connection.query(select, (err, rows) => {
+        if (err) {
+            console.error("Erro listar tipos de manutenções: ", err);
+            res.status(500).send('Erro ao listar tipos de manutenções');
+            return;
+        } else {
+            res.send(`
+                <!DOCTYPE html>
+                <html lang="pt-br">
+                <head>
+                    <meta charset="UTF-8">
+                    <title>Listagem de Tipos de Manutenção</title>
+                    <style>
+                        body {
+                            font-family: Arial, sans-serif;
+                            background-color: #f4f6f8;
+                            margin: 40px;
+                            color: #333;
+                        }
+                        h1 {
+                            text-align: center;
+                            color: #2c3e50;
+                            margin-bottom: 30px;
+                        }
+                        table {
+                            width: 100%;
+                            border-collapse: collapse;
+                            background-color: #fff;
+                            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+                        }
+                        th, td {
+                            padding: 12px 16px;
+                            text-align: left;
+                            border-bottom: 1px solid #ddd;
+                        }
+                        th {
+                            background-color: #34495e;
+                            color: #fff;
+                            font-weight: 600;
+                        }
+                        tr:hover {
+                            background-color: #f1f1f1;
+                        }
+                        .acoes a {
+                            margin-right: 10px;
+                            text-decoration: none;
+                            color: #2980b9;
+                            font-weight: bold;
+                        }
+                        .acoes a:hover {
+                            text-decoration: underline;
+                            color: #1c5980;
+                        }
+                        .voltar {
+                            display: inline-block;
+                            margin-top: 20px;
+                            background-color: #2ecc71;
+                            color: white;
+                            padding: 10px 20px;
+                            border-radius: 4px;
+                            text-align: center;
+                            text-decoration: none;
+                            font-weight: bold;
+                        }
+                        .voltar:hover {
+                            background-color: #27ae60;
+                        }
+                    </style>
+                </head>
+                <body>
+                    <h1>Dados da Manutenção</h1>
+                    <table>
+                        <tr>
+                            <th>ID Tipo</th>
+                            <th>Descrição</th>
+                            <th>Ações</th>
+                        </tr>
+                        ${rows.map(row => `
+                            <tr>
+                                <td>${row.id_tipo}</td>
+                                <td>${row.descricao}</td>
+                                <td class="acoes">
+                                    <a href="/deletar-tipos-manutencoes/${row.id_tipo}">Deletar</a>
+                                    <a href="/atualizar-tipos-manutencoes/${row.id_tipo}">Atualizar</a>
+                                </td>
+                            </tr>`).join('')}
+                    </table>
+                    <a href="/" class="voltar">Voltar</a>
+                </body>
+                </html>
+            `);
+        }
+    });
+});
+
+app.get('/deletar-tipos-manutencoes/:id_tipo', (req, res) => {
+    const id_tipo = req.params.id_tipo;
+    const deletar = 'DELETE FROM Tipo_Manutencao WHERE id_tipo = ?';
+    connection.query(deletar, [id_tipo], (err) => {
+        if (err) {
+            console.error("Erro ao deletar tipo de manutenção: ", err);
+            res.status(500).send('Erro ao deletar tipo de manutenção');
+            return;
+        } else {
+            res.redirect('/listar-tipo-manutencao');
+        }
+    });
+});
+
+app.get('/atualizar-tipos-manutencoes/:id_tipo', (req, res) => {
+    const id_tipo = req.params.id_tipo;
+    const select = 'SELECT * FROM Tipo_Manutencao WHERE id_tipo = ?';
+    connection.query(select, [id_tipo], (err, rows) => {
+        if (!err && rows.length > 0) {
+            const tipo_manutencao = rows[0];
+            res.send(`
+                <!DOCTYPE html>
+                <html lang="pt-br">
+                <head>
+                    <meta charset="UTF-8">
+                    <title>Atualizar Manutenção</title>
+                    <style>
+                        body {
+                            font-family: Arial, sans-serif;
+                            background-color: #f4f6f8;
+                            margin: 40px;
+                            color: #333;
+                        }
+                        h1 {
+                            text-align: center;
+                            color: #2c3e50;
+                            margin-bottom: 30px;
+                        }
+                        form {
+                            max-width: 500px;
+                            margin: 0 auto;
+                            background-color: #fff;
+                            padding: 30px;
+                            border-radius: 8px;
+                            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+                        }
+                        label {
+                            display: block;
+                            margin-bottom: 8px;
+                            font-weight: bold;
+                        }
+                        input[type="text"] {
+                            width: 100%;
+                            padding: 10px;
+                            margin-bottom: 20px;
+                            border: 1px solid #ccc;
+                            border-radius: 4px;
+                        }
+                        input[type="submit"] {
+                            background-color: #2980b9;
+                            color: white;
+                            padding: 10px 20px;
+                            border: none;
+                            border-radius: 4px;
+                            cursor: pointer;
+                            font-weight: bold;
+                        }
+                        input[type="submit"]:hover {
+                            background-color: #1c5980;
+                        }
+                        .voltar {
+                            display: block;
+                            text-align: center;
+                            margin-top: 20px;
+                            background-color: #2ecc71;
+                            color: white;
+                            padding: 10px 20px;
+                            border-radius: 4px;
+                            text-decoration: none;
+                            font-weight: bold;
+                            max-width: 150px;
+                            margin-left: auto;
+                            margin-right: auto;
+                        }
+                        .voltar:hover {
+                            background-color: #27ae60;
+                        }
+                    </style>
+                </head>
+                <body>
+                    <h1>Atualizar Tipo de Manutenção</h1>
+                    <form action="/atualizar-manutencoes/${tipo_manutencao.id_tipo}" method="POST">
+                        <label for="id_tipo">ID Tipo:</label>
+                        <input type="text" id="id_tipo" name="id_tipo" value="${tipo_manutencao.id_tipo}" required>
+
+                        <label for="descricao">Descrição da Manutenção:</label>
+                        <input type="text" id="descricao" name="descricao" value="${tipo_manutencao.descricao}" required>
+
+                        <input type="submit" value="Atualizar">
+                    </form>
+                    <a href="/listar-tipo-manutencao" class="voltar">Voltar</a>
+                </body>
+                </html>
+            `);
+        } else {
+            res.status(404).send('Tipo de manutenção não encontrada');
+        }
+    });
+});
+
+app.post('/atualizar-tipos-manutencoes/:id_tipo', (req, res) => {
+    const id_tipo = req.params.id_tipo;
+    const { descricao } = req.body;
+    const update = 'UPDATE Tipo_Manutencao SET descricao = ? WHERE id_tipo = ?';
+    connection.query(update, [descricao, id_tipo], (err) => {
+        if (err) {
+            res.status(500).send('Erro ao atualizar tipo de manutenção');
+        } else {
+            res.redirect('/listar-tipo-manutencao');
         }
     });
 });

@@ -106,13 +106,10 @@
     </style>
 </head>
 <body>
-    <h1>Gerenciamento de Manutenções</h1>
-    <p>Gerencie as manutenções do condomínio aqui.</p>
+    <h1>Gerenciamento de Tipos de Manutenções</h1>
+    <p>Gerencie os tipos de manutenções do condomínio aqui.</p>
 
-    <form action="/manutencao" method="POST">
-        <label for="id_manutencao">Id da Manutenção:</label>
-        <input type="text" id="id_manutencao" name="id_manutencao" required>
-
+    <form action="/tipo-manutencao" method="POST">
         <div class="manutencao-tipos">
             <strong>ID das Manutenções:</strong><br>
             1 - Elétrica<br>
@@ -124,13 +121,10 @@
         <label for="id_tipo">Tipo Manutenção (ID):</label>
         <input type="text" id="id_tipo" name="id_tipo" required>
 
-        <label for="data0">Data:</label>
-        <input type="date" id="data0" name="data0" required>
+        <label for="descricao">Descreva a Manutenção:</label>
+        <input type="text" id="descricao" name="descricao" required>
 
-        <label for="locall">Local:</label>
-        <input type="text" id="locall" name="locall" required>
-
-        <input type="submit" value="Registrar Manutenção">
+        <input type="submit" value="Registrar Tipo de Manutenção">
     </form>
 
     <a href="http://localhost:3000/">Voltar para Home</a>

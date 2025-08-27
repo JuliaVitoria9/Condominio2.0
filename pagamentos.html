@@ -3,7 +3,98 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Pagamentos</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f4f5f7;
+            color: #333;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            color: #1f2937;
+        }
+
+        p {
+            margin-bottom: 25px;
+            color: #4b5563;
+        }
+
+        form {
+            background-color: #ffffff;
+            padding: 25px 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 500px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #374151;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        input[type="date"] {
+            width: 100%;
+            padding: 10px 12px;
+            margin-bottom: 15px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            transition: all 0.2s ease-in-out;
+        }
+
+        input[type="text"]:focus,
+        input[type="number"]:focus,
+        input[type="date"]:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 5px rgba(37, 99, 235, 0.3);
+            outline: none;
+        }
+
+        input[type="submit"] {
+            width: 100%;
+            padding: 12px;
+            background-color: #2563eb;
+            color: white;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #1e40af;
+        }
+
+        a {
+            display: inline-block;
+            margin-top: 20px;
+            color: #2563eb;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
     <h1>Pagamentos</h1>
@@ -11,19 +102,22 @@
     <form action="/pagamentos" method="POST">
         <label for="id_pagamento">Id do Pagamento:</label>
         <input type="text" id="id_pagamento" name="id_pagamento" required>
-        <br>
+
         <label for="id_morador">Id do Morador:</label>
         <input type="text" id="id_morador" name="id_morador" required>
-        <br>
+
         <label for="id_referencia">Id do Apartamento:</label>
         <input type="text" id="id_referencia" name="id_referencia" required>
-        <br>
+
         <label for="data_pagamento">Data do Pagamento:</label>
         <input type="date" id="data_pagamento" name="data_pagamento" required>
-        <br>
+
         <label for="valor_pago">Valor Pagamento:</label>
         <input type="number" id="valor_pago" name="valor_pago" required>
-        <br>
+
         <input type="submit" value="Registrar Pagamento">
+    </form>
+
+    <a href="http://localhost:3000/">Voltar para Home</a>
 </body>
 </html>
