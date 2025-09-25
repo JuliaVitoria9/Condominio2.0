@@ -13,7 +13,7 @@ const connection = mysql.createConnection({
     host: 'localhost',
     user: 'root',
     password: 'root',
-    database: 'Gestao_Condominio'
+    database: 'GestaoCondominio'
 });
 
 connection.connect(function(err) {
@@ -1024,9 +1024,9 @@ app.get('/pagamentos', (req, res) => {
 });
 
 app.post('/pagamentos', (req, res) => {
-    const { id_pagamento, id_morador, id_referencia, data_pagamento, valor_pago } = req.body;
-    const insert = 'INSERT INTO Pagamento (id_pagamento, id_morador, id_referencia, data_pagamento, valor_pago) VALUES (?, ?, ?, ?, ?)';
-    connection.query(insert, [id_pagamento, id_morador, id_referencia, data_pagamento, valor_pago], (err) => {
+    const { id_pagamento, id_morador, data_pagamento, valor_pago } = req.body;
+    const insert = 'INSERT INTO Pagamento (id_pagamento, id_morador, data_pagamento, valor_pago) VALUES (?, ?, ?, ?, ?)';
+    connection.query(insert, [id_pagamento, id_morador, data_pagamento, valor_pago], (err) => {
         if (err) {
             console.error("Erro ao cadastrar pagamento: ", err);
             res.status(500).send('Erro ao cadastrar pagamento');
@@ -1114,7 +1114,6 @@ app.get('/listar-pagamentos', (req, res) => {
                         <tr>
                             <th>ID Pagamento</th>
                             <th>ID Morador</th>
-                            <th>ID Referência</th>
                             <th>Data do Pagamento</th>
                             <th>Valor Pago</th>
                             <th>Ações</th>
@@ -1123,7 +1122,6 @@ app.get('/listar-pagamentos', (req, res) => {
                             <tr>
                                 <td>${row.id_pagamento}</td>
                                 <td>${row.id_morador}</td>
-                                <td>${row.id_referencia}</td>
                                 <td>${row.data_pagamento}</td>
                                 <td>R$ ${parseFloat(row.valor_pago).toFixed(2)}</td>
                                 <td class="acoes">
@@ -1232,8 +1230,6 @@ app.get('/atualizar-pagamentos/:id_pagamento', (req, res) => {
                         <form action="/atualizar-pagamentos/${pagamento.id_pagamento}" method="POST">
                             <label for="id_morador">ID Morador:</label>
                             <input type="text" id="id_morador" name="id_morador" value="${pagamento.id_morador}" required><br><br>
-                            <label for="id_referencia">ID Referência:</label>
-                            <input type="text" id="id_referencia" name="id_referencia" value="${pagamento.id_referencia}" required><br><br>
                             <label for="data_pagamento">Data do Pagamento:</label>
                             <input type="date" id="data_pagamento" name="data_pagamento" value="${pagamento.data_pagamento ? pagamento.data_pagamento.toISOString().split('T')[0] : ''}" required><br><br>
                             <label for="valor_pago">Valor Pago:</label>
