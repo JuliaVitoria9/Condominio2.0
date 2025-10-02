@@ -1025,7 +1025,7 @@ app.get('/pagamentos', (req, res) => {
 
 app.post('/pagamentos', (req, res) => {
     const { id_pagamento, id_morador, data_pagamento, valor_pago } = req.body;
-    const insert = 'INSERT INTO Pagamento (id_pagamento, id_morador, data_pagamento, valor_pago) VALUES (?, ?, ?, ?, ?)';
+    const insert = 'INSERT INTO Pagamento (id_pagamento, id_morador, data_pagamento, valor_pago) VALUES (?, ?, ?, ?)';
     connection.query(insert, [id_pagamento, id_morador, data_pagamento, valor_pago], (err) => {
         if (err) {
             console.error("Erro ao cadastrar pagamento: ", err);
