@@ -181,84 +181,124 @@ app.get('/atualizar-blocos/:id_bloco', (req, res) => {
                     <head>
                         <title>Atualizar Bloco</title>
                         <style>
-                        body {
-                            font-family: Arial, sans-serif;
-                            background-color: #f4f6f8;
-                            margin: 40px;
-                            color: #333;
-                        }
-                        h1 {
-                            text-align: center;
-                            color: #2c3e50;
-                            margin-bottom: 30px;
-                        }
-                        form {
-                            max-width: 500px;
-                            margin: 0 auto;
-                            background-color: #fff;
-                            padding: 30px;
-                            border-radius: 8px;
-                            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-                        }
-                        label {
-                            display: block;
-                            margin-bottom: 8px;
-                            font-weight: bold;
-                        }
-                        input[type="text"] {
-                            width: 100%;
-                            padding: 10px;
-                            margin-bottom: 20px;
-                            border: 1px solid #ccc;
-                            border-radius: 4px;
-                        }
-                        input[type="submit"] {
-                            background-color: #2980b9;
-                            color: white;
-                            padding: 10px 20px;
-                            border: none;
-                            border-radius: 4px;
-                            cursor: pointer;
-                            font-weight: bold;
-                        }
-                        input[type="submit"]:hover {
-                            background-color: #1c5980;
-                        }
-                        .voltar {
-                            display: block;
-                            text-align: center;
-                            margin-top: 20px;
-                            background-color: #2ecc71;
-                            color: white;
-                            padding: 10px 20px;
-                            border-radius: 4px;
-                            text-decoration: none;
-                            font-weight: bold;
-                            max-width: 150px;
-                            margin-left: auto;
-                            margin-right: auto;
-                        }
-                        .voltar:hover {
-                            background-color: #27ae60;
-                        }
-                    </style>
+                            body {
+                                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                                background: linear-gradient(to bottom, #f0f4f8, #d9e2ec);
+                                margin: 0;
+                                padding: 0;
+                            }
+
+                            .container {
+                                max-width: 500px;
+                                margin: 60px auto;
+                                background-color: #fff;
+                                padding: 40px;
+                                border-radius: 12px;
+                                box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+                                transition: transform 0.3s;
+                            }
+
+                            .container:hover {
+                                transform: translateY(-2px);
+                            }
+
+                            h1 {
+                                text-align: center;
+                                color: #34495e;
+                                margin-bottom: 30px;
+                                font-size: 28px;
+                                letter-spacing: 1px;
+                            }
+
+                            label {
+                                display: block;
+                                margin-bottom: 8px;
+                                font-weight: 600;
+                                color: #34495e;
+                            }
+
+                            input[type="text"],
+                            input[type="number"] {
+                                width: 100%;
+                                padding: 12px;
+                                margin-bottom: 20px;
+                                border: 1px solid #ccc;
+                                border-radius: 8px;
+                                transition: border-color 0.3s, box-shadow 0.3s;
+                            }
+
+                            input[type="text"]:focus,
+                            input[type="number"]:focus {
+                                border-color: #2980b9;
+                                box-shadow: 0 0 5px rgba(41, 128, 185, 0.5);
+                                outline: none;
+                            }
+
+                            input[type="submit"] {
+                                width: 100%;
+                                background-color: #2980b9;
+                                color: #fff;
+                                padding: 12px;
+                                border: none;
+                                border-radius: 8px;
+                                cursor: pointer;
+                                font-weight: bold;
+                                font-size: 16px;
+                                transition: background 0.3s, transform 0.2s;
+                            }
+
+                            input[type="submit"]:hover {
+                                background-color: #1c5980;
+                                transform: translateY(-2px);
+                            }
+
+                            .voltar {
+                                display: inline-block;
+                                margin-top: 25px;
+                                background-color: #7f8c8d;
+                                color: #fff;
+                                padding: 10px 20px;
+                                border-radius: 8px;
+                                text-decoration: none;
+                                font-weight: bold;
+                                transition: background 0.3s, transform 0.2s;
+                                text-align: center;
+                            }
+
+                            .voltar:hover {
+                                background-color: #616f73;
+                                transform: translateY(-2px);
+                            }
+
+                            .buttons {
+                                text-align: center;
+                            }
+                        </style>
                     </head>
                     <body>
-                        <form action="/atualizar-blocos/${bloco.id_bloco}" method="POST">
-                            <label for="id_bloco">Id Bloco:</label>
-                            <input type="text" id="id_bloco" name="id_bloco" value="${bloco.id_bloco}" required readonly><br><br>
-                            <label for="descricao">Descrição:</label>
-                            <input type="text" id="descricao" name="descricao" value="${bloco.descricao}" required><br><br>
-                            <label for="qtd_apartamentos">Quantidade de Apartamentos:</label>
-                            <input type="number" id="qtd_apartamentos" name="qtd_apartamentos" value="${bloco.qtd_apartamentos}" required><br><br>
-                            <input type="submit" value="Atualizar">
-                        </form>
-                        <a href="/listar-blocos">Voltar</a>
+                        <div class="container">
+                            <h1>Atualizar Bloco</h1>
+                            <form action="/atualizar-blocos/${bloco.id_bloco}" method="POST">
+                                <label for="id_bloco">Id Bloco:</label>
+                                <input type="text" id="id_bloco" name="id_bloco" value="${bloco.id_bloco}" readonly>
+
+                                <label for="descricao">Descrição:</label>
+                                <input type="text" id="descricao" name="descricao" value="${bloco.descricao}" required>
+
+                                <label for="qtd_apartamentos">Quantidade de Apartamentos:</label>
+                                <input type="number" id="qtd_apartamentos" name="qtd_apartamentos" value="${bloco.qtd_apartamentos}" required>
+
+                                <input type="submit" value="Atualizar">
+                            </form>
+                            <div class="buttons">
+                                <a href="/listar-blocos" class="voltar">← Voltar</a>
+                            </div>
+                        </div>
                     </body>
                 </html>
             `);
         } else {
-            res.status(404).send('Bloco não encontrado');
+            res.send('Bloco não encontrado.');
         }
     });
 });
